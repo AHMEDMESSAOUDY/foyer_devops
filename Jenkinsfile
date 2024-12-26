@@ -8,7 +8,31 @@ pipeline {
         MYSQL_CREDENTIALS = credentials('mysql-credentials')
     }
     stages {
+        stage('Compile') {
+            steps {
+                
+                    sh 'mvn clean compile'
+                
+            }
+        }
+      
         
+        stage('Junit+Mock') {
+            steps {
+                
+                    sh 'mvn test'
+                
+            }
+        }
+        stage('SonnarQube') {
+            steps {
+                
+                    withSonarQubeEnv('sq1') {
+                        sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
+                    }
+                
+            }
+        } 
         stage('Build Backend Docker Image') {
             steps {
                     sh 'docker build -t kaddem-backend .'
