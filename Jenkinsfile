@@ -71,7 +71,7 @@ pipeline {
                 
             }
         }
-        stage('SonnarQube') {
+        /*stage('SonnarQube') {
             steps {
                 
                     withSonarQubeEnv('sq1') {
@@ -79,7 +79,7 @@ pipeline {
                     }
                 
             }
-        }
+        }*/
         stage('Build Backend Docker Image') {
             steps {
                     sh 'docker build -t kaddem-backend .'
