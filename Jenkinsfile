@@ -71,7 +71,7 @@ pipeline {
                 
             }
         }
-        stage('SonnarQube') {
+        /*stage('SonnarQube') {
             steps {
                 
                     withSonarQubeEnv('sq1') {
@@ -79,8 +79,8 @@ pipeline {
                     }
                 
             }
-        } 
-       /*  stage('Build Backend Docker Image') {
+        } */
+        stage('Build Backend Docker Image') {
             steps {
                     sh 'docker build -t kaddem-backend .'
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -88,7 +88,7 @@ pipeline {
                     sh 'docker push ahmedmessaoudy/kaddem_project:$BUILD_NUMBER'
             }
            }
-           */
+          
         stage('Stop Old Containers') {
             steps {
                 sh 'docker network create my-network || true'
