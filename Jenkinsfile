@@ -8,7 +8,7 @@ pipeline {
         MYSQL_CREDENTIALS = credentials('mysql-credentials')
         NEXUS_VERSION = 'nexus3'
         NEXUS_PROTOCOL = 'http'
-        NEXUS_URL = '192.168.50.3:8081' // Nexus server base URL
+        NEXUS_URL = '192.168.206.128:8081' // Nexus server base URL
         NEXUS_REPOSITORY = 'tp-foyernexus'  // Nexus repository name
         CREDENTIALS_ID = 'nexus-cred'      // Jenkins credentials ID for Nexus
         GROUP_ID = 'tn.esprit'  // Group ID for the artifact
