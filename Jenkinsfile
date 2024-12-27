@@ -6,8 +6,55 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials-id')
         MYSQL_CREDENTIALS = credentials('mysql-credentials')
+        NEXUS_VERSION = 'nexus3'
+        NEXUS_PROTOCOL = 'http'
+        NEXUS_URL = '192.168.50.3:8081' // Nexus server base URL
+        NEXUS_REPOSITORY = 'tp-foyernexus'  // Nexus repository name
+        CREDENTIALS_ID = 'nexus-cred'      // Jenkins credentials ID for Nexus
+        GROUP_ID = 'tn.esprit'  // Group ID for the artifact
     }
     stages {
+         stage("Maven Build") {
+            steps {
+                 
+                   sh "mvn package -DskipTests=true"
+                
+                
+            }
+        }
+
+       
+       
+
+          stage("Upload to Nexus") {
+            steps {
+                
+                script {
+                    def artifactId = 'tp-foyer'  // Define your artifact ID
+                    def version = '5.0.0'                  // Define the version
+                    def packaging = 'jar'                // Define the packaging type (e.g., jar)
+
+                    // Correct usage of nexusArtifactUploader
+                    nexusArtifactUploader(
+                        nexusVersion: NEXUS_VERSION,
+                        protocol: NEXUS_PROTOCOL,
+                        nexusUrl: NEXUS_URL,
+                        groupId: GROUP_ID,
+                        artifactId: artifactId,
+                        version: version,
+                        repository: NEXUS_REPOSITORY,
+                        credentialsId: CREDENTIALS_ID,
+                        artifacts: [
+                            [artifactId: artifactId,
+                             classifier: '',
+                             file: "target/${artifactId}-${version}.${packaging}",
+                             type: packaging]
+                        ]
+                    )
+                
+            }
+            }
+        }
         stage('Compile') {
             steps {
                 
